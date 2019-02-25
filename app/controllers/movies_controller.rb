@@ -26,6 +26,12 @@ class MoviesController < ApplicationController
     
     params[:ratings].nil? ? @t_param = @all_ratings : @t_param = params[:ratings].keys
     @movies = Movie.where(rating: @t_param).order(@sort)
+    
+    session[:ratings] = session[:ratings] || {'G'=>'','PG'=>'','PG-13'=>'','NC-17'=>'','R'=>''}
+    @t_param = params[:ratings] || session[:ratings]  
+    session[:sort] = @sort
+    session[:ratings] = @t_param
+    @movies = Movie.where(rating: session[:ratings].keys).order(session[:sort])
   end
 
   def new

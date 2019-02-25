@@ -1,6 +1,5 @@
 class Movie < ActiveRecord::Base
-   # Ratings available for the table
     def self.ratings
-       ['G', 'PG', 'PG-13', 'NC-17', 'R' ]
+    Movie.select(:rating).distinct.inject([]) { |a, m| a.push m.rating}
     end
 end
